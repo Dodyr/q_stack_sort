@@ -8,29 +8,30 @@
 
 int partition(int* ar, int l, int r)
 {
-    int i = l - 1;
-    int j = r;
-    int pivot = ar[r];
-    bool bo = false;
-    while (!bo)
+    int i = l;
+    int j = r - 1;
+    int pivot = ar[(i+j)/2];
+    int temp = ar[(i + j) / 2];
+    ar[(i + j) / 2] = ar[r];
+    ar[r] = temp;
+    while (i<j)
     {
-        while ((ar[++i] < pivot) && !bo)  
-            int a = 1;
-        while ((ar[--j] > pivot) && !bo)
+        while (ar[i] < pivot)
         {
-            if (j == 1)
-                bo = true;
+            i++;
         }
-        if (i >= j)
-            bo = true;
-        if (!bo)
+        while (ar[j] > pivot)
         {
-            int temp = ar[i];
+            j--;
+        }
+        if (i < j)
+        {
+            temp = ar[i];
             ar[i] = ar[j];
             ar[j] = temp;
         }
     }
-    int temp = ar[i];
+    temp = ar[i];
     ar[i] = ar[r];
     ar[r] = temp;
     return i;
@@ -47,24 +48,18 @@ void quickSort(int* ar, int low, int high)
     {
         l = s.Pop();
         r = s.Pop();
-        bool bo = true;
         if (r > l)
         {
             int  i = partition(ar, l, r);
-            if (i-1 > r-i)
-            {   
+            if (l < i)
+            {
                 s.Push(i-1);
                 s.Push(l);
-                s.Push(r);
-                s.Push(i + 1);
             }
-            else
+            if (r > i)
             {
                 s.Push(r);
-                s.Push(i+1);
-                s.Push(i-1);
-                s.Push(l);
-                
+                s.Push(i + 1);
             }
         }
     }
